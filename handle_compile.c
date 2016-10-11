@@ -4,15 +4,6 @@
 
 cell state = 0;
 
-cell finisher = FINISHED;
-cell executer[2] = { 0, (cell)&finisher };
-
-void perform(cell xt)
-{
-    executer[0] = xt;
-    walk(executer);
-}
-
 void handle_word(char *name_adr, cell name_len)
 {
     cell immediate;

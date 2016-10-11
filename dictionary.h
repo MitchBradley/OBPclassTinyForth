@@ -15,5 +15,8 @@ void allot(cell nbytes);
 // UNUSED returns the number of unused bytes available in the dictionary
 cell unused(void);
 
+// COMMA adds a number to the dictionary
+void comma(cell n);
+
 // COMPILE adds an execution token to the dictionary
 void compile(cell xt);

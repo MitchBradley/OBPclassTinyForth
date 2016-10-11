@@ -14,6 +14,10 @@
 typedef intptr_t cell;
 typedef uintptr_t u_cell;
 
+typedef void (*code_field_t)(void);
+
+
+
 #include "input.h"
 #include "output.h"
 #include "parse.h"

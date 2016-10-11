@@ -16,3 +16,12 @@ cell parse_word(char **adr)
     }
     return len;
 }
+
+cell safe_parse_word(char **adr)
+{
+    cell len = parse_word(adr);
+    if (len == 0) {
+	ctype("End of line while parsing word\n");
+    }
+    return len;
+}

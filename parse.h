@@ -24,3 +24,5 @@
 //    found, the return value is 0.
 
 cell parse_word(char **adr);
+
+cell safe_parse_word(char **adr);

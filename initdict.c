@@ -6,11 +6,13 @@ static void plus(void)
 {
     push(pop() + pop());
 }
+
 static void minus(void)
 {
     cell n = pop();
     push(pop() - n);
 }
+
 static void times(void)
 {
     push(pop() * pop());
@@ -38,7 +40,12 @@ static void bye(void)
     exit(0);
 }
 
-cell unnester;
+static void unnest()
+{
+    ip = (cell *)rpop();
+}
+
+static cell unnester;
 
 static void semicolon(void)
 {
@@ -46,30 +53,64 @@ static void semicolon(void)
     state = 0;
 }
 
+
+static void docolon(void)
+{
+    rpush((cell)ip);
+    ip = w+1;
+}
+
 static void colon(void)
 {
     char *p;
     cell len;
-    len = parse_word(&p);
-    if (len == 0) {
-	ctype(": needs an argument\n");
+    if ((len = safe_parse_word(&p)) == 0) {
 	return;
     }
-    if (len > 31) {
-	type(p, len);
-	ctype(" is too long\n");
-	return;
-    }
-    header(p, len, COLON);
+    header(p, len, docolon);
     state = 1;
 }
+
+
+static void doconstant(void)
+{
+    push(*(w+1));
+}
+
+static void constant(void)
+{
+    char *p;
+    cell len;
+    if ((len = safe_parse_word(&p)) == 0) {
+	return;
+    }
+    header(p, len, doconstant);
+    comma(pop());
+}
+
+static void dovariable(void)
+{
+    push((cell)(w+1));
+}
+
+static void variable(void)
+{
+    char *p;
+    cell len;
+    if ((len = safe_parse_word(&p)) == 0) {
+	return;
+    }
+    header(p, len, dovariable);
+    comma(0);
+}
+
 
 static void doliteral(void)
 {
     push(*ip++);
 }
 
-cell dolit;
+static cell dolit;
 
 void literal(cell n)
 {
@@ -77,22 +118,46 @@ void literal(cell n)
     compile(n);
 }
 
+
+static void fetch(void)
+{
+    cell *adr = (cell *)pop();
+    push(*adr);
+}
+
+static void store(void)
+{
+    cell *adr = (cell *)pop();
+    *adr = pop();
+}
+
 void init_dictionary(void)
 {
     here = origin;
+
     cheader("exit", unnest);
     unnester = lastacf();
+    cheader(";", semicolon); immediate();
+
+    cheader(":", colon);
+    cheader("variable", variable);
+    cheader("constant", constant);
+
     cheader("(literal)", doliteral);
     dolit = lastacf();
-    cheader(";", semicolon); immediate();
+
     cheader("+", plus);
     cheader("-", minus);
     cheader("*", times);
     cheader("/", divide);
     cheader(".", print);
+
     cheader("drop", drop);
     cheader("dup", dup);
     cheader("depth", depth);
+
+    cheader("@", fetch);
+    cheader("!", store);
+
     cheader("bye", bye);
-    cheader(":", colon);
 }

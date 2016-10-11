@@ -21,8 +21,13 @@ cell unused(void)
     return &origin[MAXDICT] - here;
 }
 
+void comma(cell n)
+{
+    *(cell *)here = n;
+    here += sizeof(cell);
+}
+
 void compile(cell xt)
 {
-    *(cell *)here = xt;
-    here += sizeof(cell);
+    comma(xt);
 }

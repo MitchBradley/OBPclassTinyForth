@@ -5,7 +5,7 @@
 
 cell find(char *name_adr, cell name_len, cell *xt);
 
-void header(char *name_adr, cell name_len, cell word_type);
+void header(char *name_adr, cell name_len, void (*action_adr)(void));
 
 void cheader(char *name, void (*action_adr)(void));
 

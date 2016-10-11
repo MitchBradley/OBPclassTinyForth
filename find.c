@@ -3,20 +3,20 @@
 
 char *dictionary[MAXDICT];
 
-#define MAXWORDLEN 31
+#define MAXNAMELEN 31
 
 struct word {
     struct word *next;
     char length;  // 0x80 bit is set if immediate
-    char name[MAXWORDLEN];
-    cell code_field;
+    char name[MAXNAMELEN];
+    code_field_t code_field;
 };
 
 int match(struct word *p, char *adr, cell len)
 {
     char *this_adr = p->name;
 
-    if ((p->length & MAXWORDLEN) != len) {
+    if ((p->length & MAXNAMELEN) != len) {
 	return 0;
     }
     while (len--) {
@@ -46,9 +46,13 @@ cell find(char *name_adr, cell name_len, cell *xt)
     return 0;
 }
 
-void header(char *name_adr, cell name_len, cell word_type)
+void header(char *name_adr, cell name_len, code_field_t action_adr)
 {
-    name_len &= MAXWORDLEN;
+    if (name_len > MAXNAMELEN) {
+	type(name_adr, name_len);
+	ctype(" is too long\n");
+	return;
+    }
     align();
 
     struct word *new_word = (struct word *)here;
@@ -62,12 +66,12 @@ void header(char *name_adr, cell name_len, cell word_type)
 	*p++ = *name_adr++;
     }
 
-    new_word->code_field = word_type;
+    new_word->code_field = action_adr;
 }
 
-void cheader(char *name, void (*action_adr)(void))
+void cheader(char *name, code_field_t action_adr)
 {
-    header(name, strlen(name), (cell)action_adr);
+    header(name, strlen(name), action_adr);
 }
 
 
