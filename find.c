@@ -12,7 +12,7 @@ struct word {
     code_field_t code_field;
 };
 
-int match(struct word *p, char *adr, cell len)
+static int match(struct word *p, char *adr, cell len)
 {
     char *this_adr = p->name;
 
