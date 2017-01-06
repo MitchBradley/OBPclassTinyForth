@@ -1,6 +1,6 @@
 #include "forth.h"
 
-void perform(cell xt)
+void perform(cell *xt)
 {
     ((void (*)(void))(*(cell *)xt))();
 }
@@ -22,6 +22,6 @@ void handle_word(char *word_adr, cell word_len)
 	    type(word_adr, word_len);
 	    cr();
 	    to_in = num_source;  // Ignore the rest of the line
-	}	
+	}
     }
 }

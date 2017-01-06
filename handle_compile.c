@@ -21,7 +21,7 @@ void handle_word(char *name_adr, cell name_len)
 	    // If state is false, we always execute the word instead of compiling it
 	    // If state is true and found>0, the word is immediate so it must
 	    // be executed even in compile state.
-	    perform(xt);
+	    perform((cell *) xt);
 	}
     } else {
 	// If the word is not found in the dictionary, it is either a
@@ -44,6 +44,6 @@ void handle_word(char *name_adr, cell name_len)
 	    type(name_adr, name_len);
 	    cr();
 	    to_in = num_source;  // Ignore the rest of the line
-	}	
+	}
     }
 }

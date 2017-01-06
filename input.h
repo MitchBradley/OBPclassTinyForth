@@ -52,4 +52,4 @@ void set_input(char *buffer, u_cell buflen, u_cell source_id);
 // NUM_SOURCE to the number of characters read.  It returns false if
 // no more input can be read - for example if the end of file has
 // been reached.
-int refill();
+cell refill();
