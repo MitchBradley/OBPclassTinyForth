@@ -1,3 +1,5 @@
+#include <inttypes.h>
+
 #include "forth.h"
 #include "stdio.h"
 #include "stdlib.h"
@@ -27,7 +29,7 @@ static void divide(void)
 static void print(void)
 {
     cell n = pop();
-    printf(base == 10 ? "%d " : "%x ", n);
+    printf(base == 10 ? "%"PRIdPTR" " : "%"PRIxPTR" ", n);
 }
 
 static void drop(void)
