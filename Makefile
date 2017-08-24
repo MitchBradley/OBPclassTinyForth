@@ -22,4 +22,4 @@ miniforth: $(OBJS)
 	$(CC) $(CFLAGS) -c $<
 
 clean:
-	rm -f $(OBJS) miniforth.exe
+	-rm -f $(OBJS) miniforth*
