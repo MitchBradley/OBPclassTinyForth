@@ -22,4 +22,4 @@ miniforth: $(OBJS)
 	$(CC) $(CFLAGS) -c $<
 
 clean:
-	-rm -f $(OBJS) miniforth*
+	-rm -f $(OBJS) ctags miniforth*
