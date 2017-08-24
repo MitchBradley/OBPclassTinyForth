@@ -24,7 +24,7 @@ cell check_digit(char c)
     
     // The base is greater than 10 so we have to deal with alphabetic
     // characters 'A'..'Z' or 'a'..'z'
-    if (c >= 'a' && c <= 'a') {
+    if (c >= 'a' && c <= 'z') {
 	// Convert to upper case
 	c = c - 'a' + 'A';
     }
